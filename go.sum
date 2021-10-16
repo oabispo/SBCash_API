@@ -1,0 +1,8 @@
+github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
+github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
+github.com/oabispo/BAIniHandler v0.0.0-20210122024126-e608c9840462 h1:MPY5azfesqdn9X/0AG0a2VZTncE+DEKeOjRWFyM/N3o=
+github.com/oabispo/BAIniHandler v0.0.0-20210122024126-e608c9840462/go.mod h1:KQlJHzkYy7nZH9qP+G7rlUWXfTKOgOKwAUPO8ma8DZU=
+github.com/oabispo/BAMySQLHelper v0.0.0-20210721222932-2b650ba95ef2 h1:0RAiyzyi32nOyy5vuOhYU4V/LtlQ5QdfqunEhIfN5c8=
+github.com/oabispo/BAMySQLHelper v0.0.0-20210721222932-2b650ba95ef2/go.mod h1:6Z679tB3uRjLcfJ8YKmjanZe9e+IuK3cWhxab8ULk3Y=
+github.com/oabispo/BAMySQLHelper v0.0.0-20210721225146-733c41941555 h1:x9Fp6zNGJFy1zQU4G+ym/n9Pi4MU8N5JEg3a5tyC4Rg=
+github.com/oabispo/BAMySQLHelper v0.0.0-20210721225146-733c41941555/go.mod h1:T1WA+9e0GHG7VxoSmDVVvMtNQO7W0J7ksQGgYixTvF8=
