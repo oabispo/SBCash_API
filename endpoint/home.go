@@ -25,9 +25,28 @@ func NewRouterHome(db *sql.DB) *router.BAUrlSegmentRoute {
 	segment.AddHandlerFunc(router.NewBASegmentServeHTTP(router.HM_NA, handler_na))
 
 	segment.AddSubRouter(NewRouterFavIcon(segment))
-	segment.AddSubRouter(NewRouterAPI(db, segment))
 	segment.AddSubRouter(NewRouterIndex(db, segment))
 	segment.AddSubRouter(NewRouterStaticFiles(db, segment))
+	segment.AddSubRouter(NewRouterAPI(db, segment))
+
+	return segment
+}
+
+func NewRouterFavIcon(segmentParent *router.BAUrlSegmentRoute) *router.BAUrlSegmentRoute {
+
+	segment := router.NewBAUrlSegmentRoute(router.MT_GET, "/favicon.ico", nil)
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(200)
+		w.Write([]byte("<h1>Favicon.ico</h1>"))
+	}
+	handler_nf := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(200)
+		w.Write([]byte("<h1>404</h1>"))
+	}
+	segment.AddHandlerFunc(router.NewBASegmentServeHTTP(router.HM_OK, handler))
+	segment.AddHandlerFunc(router.NewBASegmentServeHTTP(router.HM_NF, handler_nf))
 
 	return segment
 }
@@ -74,25 +93,6 @@ func NewRouterV1(db *sql.DB, segmentParent *router.BAUrlSegmentRoute) *router.BA
 	segment.AddSubRouter(NewRouterConfig(db, segment))
 	segment.AddSubRouter(NewRouterImposto(db, segment))
 	segment.AddSubRouter(NewRouterTipoMovimento(db, segment))
-
-	return segment
-}
-
-func NewRouterFavIcon(segmentParent *router.BAUrlSegmentRoute) *router.BAUrlSegmentRoute {
-
-	segment := router.NewBAUrlSegmentRoute(router.MT_GET, "/favicon.ico", nil)
-	handler := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		w.WriteHeader(200)
-		w.Write([]byte("<h1>Favicon.ico</h1>"))
-	}
-	handler_nf := func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		w.WriteHeader(200)
-		w.Write([]byte("<h1>404</h1>"))
-	}
-	segment.AddHandlerFunc(router.NewBASegmentServeHTTP(router.HM_OK, handler))
-	segment.AddHandlerFunc(router.NewBASegmentServeHTTP(router.HM_NF, handler_nf))
 
 	return segment
 }

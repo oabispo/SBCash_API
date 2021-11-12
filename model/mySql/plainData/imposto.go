@@ -3,8 +3,9 @@ package plainData
 import (
 	"database/sql"
 	"errors"
-	"github.com/oabispo/BAMySQLHelper"
 	repo "sbcash_api/repositories/plain"
+
+	"github.com/oabispo/BAMySQLHelper"
 )
 
 type mysqlImposto struct {
@@ -44,10 +45,20 @@ func convertRawImposto(data []interface{}, err error) ([]*repo.Imposto, error) {
 	} else {
 		var impostos []*repo.Imposto = make([]*repo.Imposto, 0, len(data))
 		for _, item := range data {
-			impostos = append(impostos, item.(*mysqlImposto).Imposto)
+			sqlImposto := item.(*mysqlImposto)
+			impostos = append(impostos, sqlImposto.Imposto)
 		}
 		return impostos, err
 	}
+}
+
+func Imposto_GetAll2(db *sql.DB) ([]*repo.Imposto, error) {
+	var stmt string = "select i.cod_imposto, i.descricao, i.aliquota from Imposto i"
+
+	dbh := BAMySQLHelper.New(db)
+	data, err := dbh.FetchMany(newMySQLImposto, stmt)
+	impostos, err := convertRawImposto(data, err)
+	return impostos, err
 }
 
 func Imposto_GetAll(db *sql.DB) ([]*repo.Imposto, error) {
@@ -55,8 +66,18 @@ func Imposto_GetAll(db *sql.DB) ([]*repo.Imposto, error) {
 
 	dbh := BAMySQLHelper.New(db)
 	data, err := dbh.FetchMany(newMySQLImposto, stmt)
-	impostos, err := convertRawImposto(data, err)
-	return impostos, err
+
+	createItemCallback := func(item interface{}) interface{} {
+		sqlImposto := item.(*mysqlImposto)
+		imposto := &repo.Imposto{}
+		imposto = sqlImposto.Imposto
+		return imposto
+	}
+
+	items := make([]interface{}, 0, len(data))
+	ConvertRawData(data, items, createItemCallback)
+	//impostos := items.([]repo.Imposto)
+	return nil, err
 }
 
 func Imposto_Inserir(db *sql.DB, descricao string, aliquota float64) (int64, error) {

@@ -17,12 +17,12 @@ import (
 
 func main() {
 	ini, _ := BAIniHandler.NewBAIniHandler("api.ini")
-	ini.Save(true)
 	host := ini.ReadString("DBSettings", "host", "127.0.0.1:3306")
 	database := ini.ReadString("DBSettings", "database", "database")
 	userName := ini.ReadString("DBSettings", "user", "root")
 	password := ini.ReadString("DBSettings", "passwd", "password")
 	portNum := ini.ReadInteger("APISettings", "portNum", 8080)
+	ini.Save(true)
 
 	api := router.NewBARoutHelper(router.NewBARoutConfig(portNum, onStart, onBeforeHandling, onAfterHandling))
 	db := mysql.NewSQLConnection(host, database, userName, password)
